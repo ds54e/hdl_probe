@@ -13,8 +13,8 @@ CC := gcc
 CFLAGS := -DDSIM -fPIC -g -I$(DSIM_HOME)/include
 
 CORE_SV := $(ROOT)/sv/hdl_probe_pkg.sv
-SV_FILES := $(sort $(wildcard $(ROOT)/sv/*.sv) $(wildcard $(ROOT)/sv/*.svh) $(wildcard $(ROOT)/tb/*.sv))
-SLANG_FILES := $(CORE_SV) $(ROOT)/tb/example_core.sv
+SV_FILES := $(sort $(wildcard $(ROOT)/sv/*.sv) $(wildcard $(ROOT)/sv/*.svh) $(wildcard $(ROOT)/examples/*.sv))
+SLANG_FILES := $(CORE_SV) $(ROOT)/examples/example_core.sv
 
 build-lib: $(DSIM_LIB)
 
@@ -40,12 +40,12 @@ fmt:
 example-core: build-lib
 	source $(DSIM_HOME)/shell_activate.bash
 	export DSIM_LICENSE=$(DSIM_LICENSE)
-	dsim -sv_lib $(DSIM_LIB) +acc+rwcbf -top example_core $(CORE_SV) $(ROOT)/tb/example_core.sv
+	dsim -sv_lib $(DSIM_LIB) +acc+rwcbf -top example_core $(CORE_SV) $(ROOT)/examples/example_core.sv
 
 example-uvm: build-lib
 	source $(DSIM_HOME)/shell_activate.bash
 	export DSIM_LICENSE=$(DSIM_LICENSE)
-	dsim $(DSIM_UVM_OPTS) -top example_uvm $(CORE_SV) $(ROOT)/tb/example_uvm.sv
+	dsim $(DSIM_UVM_OPTS) -top example_uvm $(CORE_SV) $(ROOT)/examples/example_uvm.sv
 
 example-all:
 	$(MAKE) example-core
